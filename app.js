@@ -4,9 +4,15 @@ const App={
       title: 'Notes',
       input:{
         value: '',
-        placeholder:'Type your note'
+        placeholder:'Type your note',
+      },
+      change:{
+        value: '',
+        placeholder:'Change note',
+        show: false
       },
       notes:['note 1', 'note 2'],
+      changes:[false,false],
     };
   },
   mounted(){
@@ -27,13 +33,26 @@ const App={
       this.notes = JSON.parse(localNotes)
     }
   },
+  onChange(index){
+    this.notes[index]=this.change.value
+    this.change.value=''
+    this.changes[index]=false
+  },
+  showInput(index){
+    if(this.changes[index]){
+      this.changes[index]=false
+    }else{
+      this.changes[index]=true
+    }
+  },
     onSubmit(){
       this.notes.push(this.input.value)
+      this.changes.push(false)
       this.input.value=''
-      console.log(this.input)
     },
     remove(index){
       this.notes.splice(index,1)
+      this.changes[index]=false
     }
   },
 };
